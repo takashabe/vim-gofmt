@@ -34,8 +34,8 @@ function! s:fmt(formatter) abort
   let cmd = [a:formatter.cmd] + a:formatter.args + [tmpfile]
   if has('nvim')
     call jobstart(cmd, {
-      \   '_on_stderr': handler.on_err,
-      \   '_on_exit': handler.on_exit,
+      \   'on_stderr': handler.on_err,
+      \   'on_exit': handler.on_exit,
       \ })
   else
     call job_start(cmd, {

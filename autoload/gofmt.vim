@@ -32,10 +32,17 @@ function! s:fmt(formatter) abort
   let handler.bufnr = bufnr('%')
 
   let cmd = [a:formatter.cmd] + a:formatter.args + [tmpfile]
-  call job_start(cmd, {
-  \   'err_cb': handler.on_err,
-  \   'exit_cb': handler.on_exit,
-  \ })
+  if has('nvim')
+    call jobStart(cmd, {
+      \   '_on_stderr': handler.on_err,
+      \   '_on_exit': handler.on_exit,
+      \ })
+  else
+    call job_start(cmd, {
+      \   'err_cb': handler.on_err,
+      \   'exit_cb': handler.on_exit,
+      \ })
+  endif
 endfunction
 
 let s:handler = {}
